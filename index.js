@@ -4,41 +4,11 @@ const Bluebird = require('bluebird');
 const c3 = require('c3');
 const fetchUrl = require('./lib/fetch-url');
 
-// const chartTweetsByDay = c3.generate({
-//   bindto: '#chartTweetsByDay',
-//     data: {
-//         x: 'x',
-// //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-//         columns: [
-//             ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-// //            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
-//             ['data1', 30, 200, 100, 400, 150, 250],
-//             ['data2', 130, 340, 200, 500, 250, 350]
-//         ]
-//     },
-//     zoom: {
-//         enabled: true
-//     },
-//     axis: {
-//         x: {
-//             type: 'timeseries',
-//             tick: {
-//                 format: '%Y-%m-%d'
-//             }
-//         }
-//     }
-// });
 const chartTweetsByDay = c3.generate({
   bindto: '#chartTweetsByDay',
     data: {
         x: 'x',
-      //  xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-        columns: [
-            // ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-//            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
-            // ['data1', 30, 200, 100, 400, 150, 250],
-            // ['data2', 130, 340, 200, 500, 250, 350]
-        ]
+        columns: []
     },
     zoom: {
         enabled: true
@@ -69,17 +39,13 @@ const chartDevices = c3.generate({
 const chartOwnTweets = c3.generate({
   bindto: '#chartOwnTweets',
     data: {
-        columns: [
-            []
-        ],
+        columns: [],
         type: 'gauge',
         onclick: function (d, i) { console.log("onclick", d, i); },
         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
     },
-    gauge: {
-
-    },
+    gauge: {},
     color: {
         pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
         threshold: {
@@ -94,8 +60,7 @@ const chartOwnTweets = c3.generate({
 const chartMostUsedWords = c3.generate({
   bindto: '#chartMostUsedWords',
     data: {
-        columns: [
-        ],
+        columns: [],
         type : 'donut',
         onclick: function (d, i) { console.log("onclick", d, i); },
         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
@@ -106,8 +71,7 @@ const chartMostUsedWords = c3.generate({
     }
 });
 
-fetchUrl('http://localhost:5000/tweet_statistics/rlsux').then((json) => {
-  console.log(json);
+fetchUrl('http://localhost:5000/tweet_statistics/nellykfm').then((json) => {
   const sourceDevice = json.data.attributes.user_devices.map((device) => {
     return [device.source, device.count];
   });
@@ -115,9 +79,11 @@ fetchUrl('http://localhost:5000/tweet_statistics/rlsux').then((json) => {
   const ownTweets = json.data.attributes.prec_of_own_tweets_vs_retweeted;
   const mostUsedWords = json.data.attributes.most_words_used.map((mostWords) => {
     return [mostWords.source, mostWords.count];
-  })
+  });
   const daysOfTweets = json.data.attributes.stats_per_day;
-  // console.log(daysOfTweets);
+
+  document.getElementById('UserScreenName1').innerHTML = json.data.attributes.id;
+  document.getElementById('UserScreenName2').innerHTML = json.data.attributes.id;
 
   chartDevices.unload();
   chartDevices.load({
@@ -126,7 +92,7 @@ fetchUrl('http://localhost:5000/tweet_statistics/rlsux').then((json) => {
 
   chartOwnTweets.unload();
   chartOwnTweets.load({
-    columns: [['data', ownTweets*100]]
+    columns: [['% of own Tweets vs retweets', ownTweets*100]]
   });
 
   chartMostUsedWords.unload();
@@ -137,6 +103,6 @@ fetchUrl('http://localhost:5000/tweet_statistics/rlsux').then((json) => {
   chartTweetsByDay.unload();
   chartTweetsByDay.load({
     columns: daysOfTweets
-  })
+  });
 
 });

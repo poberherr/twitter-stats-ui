@@ -7,6 +7,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.css" rel="stylesheet" type="text/css">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 
@@ -14,20 +16,35 @@
   <body>
     <nav class="blue darken-3">
       <div class="navbar-wrapper container">
-        <a href="#" class="twitter-stats-ui-logo">Twitterful</a>
-        <ul class="right">
-          <li><a href="#">Somelink</a></li>
-          <li><a href="#">Someotherlink</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
+        <form>
+          <div class="input-field">
+            <input id="search" type="search" required>
+            <label for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+          </div>
+        </form>
       </div>
     </nav>
+
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <br><br>
+        <h4 class="header center orange-text">Overview Twitter account:<div id=UserScreenName1>XYZ</div></h1>
+        <br><br>
+
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">UserScreenName2
+          <div id=UserScreenName2>Username</div>
+      </div>
+    </div>
 
     <div class="container">
       <div class="row">
         <div class="col l12">
           <div class="card-panel">
-            <span class="card-title">Tweets over time and retweets</span>
+            <span class="card-title">Tweets and retweets per day (scroll to zoom & drag)</span>
             <div id="chartTweetsByDay"></div>
           </div>
         </div>
@@ -36,7 +53,7 @@
       <div class="row">
         <div class="col l4">
           <div class="card-panel">
-             <span class="card-title center">Card Title</span>
+             <span class="card-title center">Most used words</span>
              <div id="chartMostUsedWords"></div>
           </div>
         </div>
