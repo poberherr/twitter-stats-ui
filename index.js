@@ -111,13 +111,15 @@ fetchUrl('http://localhost:5000/statistics/rlsux').then((json) => {
 
   document.getElementById('UserTweetsCount').innerHTML = json.user.data.attributes.statuses_count + ' tweets';
   document.getElementById('UserTweetsAnalyzed').innerHTML = json.data.attributes.tweets_analysed + ' Tweets analysed';
-  document.getElementById('UserFavoritesCount').innerHTML = json.user.data.attributes.favourites_count + ' total likes collected';
+  document.getElementById('UserFavoritesCount').innerHTML = json.user.data.attributes.favourites_count + ' total likes';
   document.getElementById('UserFollowersCount').innerHTML = json.user.data.attributes.followers_count + ' followers';
 
-  document.getElementById('UserGotRetweetedCount').innerHTML = json.data.attributes.user_got_retweeted_count + ' retweets collected';
+  document.getElementById('UserGotRetweetedCount').innerHTML = json.data.attributes.user_got_retweeted_count + ' total retweets';
   document.getElementById('UserAverageOwnTweetsVsRetweetCount').innerHTML = json.data.attributes.avg_own_tweets_vs_retweeted_count + ' of your tweets get retweeted';
   document.getElementById('UserAverageStars').innerHTML = json.data.attributes.average_stars + ' avg stars per tweet';
   document.getElementById('UserAverageRetweets').innerHTML = json.data.attributes.average_retweets + ' avg retweets';
+  document.getElementById('UserChanceToReachAFollowerOfAFollower').innerHTML = json.data.attributes.chance_to_reach_a_follower_of_a_follower_per_tweet + ' % chance to reach a follower of a follower per tweet';
+
 
   chartDevices.unload();
   chartDevices.load({
