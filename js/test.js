@@ -120,19 +120,33 @@
 	    }
 	});
 	
-	fetchUrl('http://localhost:5000/tweet_statistics/nellykfm').then((json) => {
+	
+	document.querySelector('#search').addEventListener('keypress', function (e) {
+	    var key = e.which || e.keyCode;
+	    if (key === 13) { // 13 is enter
+	      // Why u no work?
+	      var myURL = document.location;
+	      document.location = myURL + "?a=parameter";
+	      console.log(document.getElementById("search").value);
+	      return false; // doesnt prevent reloading
+	    }
+	});
+	
+	
+	
+	fetchUrl('http://localhost:5000/statistics/nellykfm').then((json) => {
 	  const sourceDevice = json.data.attributes.user_devices.map((device) => {
 	    return [device.source, device.count];
 	  });
 	
-	  const ownTweets = json.data.attributes.prec_of_own_tweets_vs_retweeted;
+	  const ownTweets = json.data.attributes.perc_of_own_tweets_vs_retweeted;
 	  const mostUsedWords = json.data.attributes.most_words_used.map((mostWords) => {
 	    return [mostWords.source, mostWords.count];
 	  });
 	  const daysOfTweets = json.data.attributes.stats_per_day;
 	
-	  document.getElementById('UserScreenName1').innerHTML = json.data.attributes.id;
-	  document.getElementById('UserScreenName2').innerHTML = json.data.attributes.id;
+	  document.getElementById('UserScreenName1').innerHTML = 'Overview for ' + json.user.data.attributes.screen_name;
+	  document.getElementById('UserScreenName2').innerHTML = json.user.data.attributes.screen_name;
 	
 	  chartDevices.unload();
 	  chartDevices.load({
