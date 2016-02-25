@@ -147,6 +147,19 @@
 	
 	  document.getElementById('UserScreenName1').innerHTML = 'Overview for ' + json.user.data.attributes.screen_name;
 	  document.getElementById('UserScreenName2').innerHTML = json.user.data.attributes.screen_name;
+	  document.getElementById('UserName').innerHTML = json.user.data.attributes.name;
+	  document.getElementById('UserDescription').innerHTML = json.user.data.attributes.description;
+	
+	  document.getElementById('UserTwitterId').innerHTML = 'Twitter ID: ' + json.user.data.attributes.twitter_id;
+	  document.getElementById('UserLocation').innerHTML = 'Location: ' + json.user.data.attributes.location;
+	  document.getElementById('UserTimeZone').innerHTML = 'Time Zone: ' + json.user.data.attributes.time_zone;
+	  document.getElementById('UserCreatedAt').innerHTML = 'Account created: ' + json.user.data.attributes.created_at;
+	
+	  document.getElementById('UserTweetsCount').innerHTML = json.user.data.attributes.statuses_count + ' tweets';
+	  document.getElementById('UserTweetsAnalyzed').innerHTML = json.data.attributes.tweets_analysed + ' Tweets analysed';
+	  document.getElementById('UserFavoritesCount').innerHTML = json.user.data.attributes.favourites_count + ' likes in total';
+	  document.getElementById('UserFollowersCount').innerHTML = json.user.data.attributes.followers_count + ' followers';
+	
 	
 	  chartDevices.unload();
 	  chartDevices.load({
