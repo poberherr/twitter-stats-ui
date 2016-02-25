@@ -36,26 +36,37 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col l3">
+        <div class="col l3 card-panel">
           <div id=UserScreenName2>UserScreenName</div>
           <div id=UserName>UserName</div>
+          <br>
           <div id=UserDescription>UserDescription</div>
+          <br><br>
         </div>
         <div class="col l3">
+          <br><br>
           <div id=UserTwitterId>UsernameTwitterId</div>
           <div id=UserLocation>UserLocation</div>
           <div id=UserTimeZone>UserTimeZone</div>
           <div id=UserCreatedAt>UserCreatedAt</div>
+          <br><br>
         </div>
         <div class="col l3">
+          <br><br>
           <div id=UserTweetsCount>UserTweetsCount</div>
           <div id=UserTweetsAnalyzed>UserTweetsAnalysed</div>
-          <div id=UserFavoritesCount>UserFavoritesCount</div>
           <div id=UserFollowersCount>UserFollowersCount</div>
-
+          <br><br>
         </div>
         <div class="col l3">
-
+          <br><br>
+          <div id=UserFavoritesCount>UserFavoritesCount</div>
+          <div id=UserGotRetweetedCount>UserGotRetweetedCound</div>
+          <div id=UserAverageOwnTweetsVsRetweetCount>UserAverageOwnTweetsVsRetweetCount</div>
+          <div id=UserAverageStars>UserAverageStars</div>
+          <div id=UserAverageRetweets>UserAverageRetweets</div>
+          <!-- <div id=UserAverageResponses>UserAverageResponses</div> -->
+          <br><br>
         </div>
 
       </div>
@@ -94,6 +105,14 @@
         </div>
 
       </div> <!-- end of row -->
+
+      <div class="row">
+          <div class="col l4">
+              <span class="card-title">Top Users you replied to:</span>
+              <div id="chartTopReplyUsers"></div>
+          </div>
+      </div>
+
     </div> <!-- end of container -->
 
     <footer class="page-footer blue darken-3">
