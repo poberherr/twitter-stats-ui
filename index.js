@@ -69,90 +69,89 @@ const chartTopReplyUsers = c3.generate({
     }
 });
 
-document.querySelector('#search').addEventListener('keypress', function (e) {
-    var key = e.which || e.keyCode;
-    if (key === 13) { // 13 is enter
-      // Why u no work?
-      var myURL = document.location;
-      document.location = myURL + "?a=parameter";
-      console.log(document.getElementById("search").value);
-      return false; // doesnt prevent reloading
-    }
+document.getElementById('search').addEventListener('keypress', function (e) {
+  var key = e.which || e.keyCode;
+  if (key === 13) { // 13 is enter
+    fetchUser(e.target.value);
+    e.preventDefault();
+  }
 });
 
 
 
-fetchUrl('http://localhost:5000/statistics/hiburo').then((json) => {
-  const sourceDevice = json.data.attributes.user_devices.map((device) => {
-    return [device.source, device.count];
+function fetchUser (username) {
+  fetchUrl('http://localhost:5000/statistics/' + username).then((json) => {
+    const sourceDevice = json.data.attributes.user_devices.map((device) => {
+      return [device.source, device.count];
+    });
+
+    const ownTweets = json.data.attributes.perc_of_own_tweets_vs_retweeted;
+    const mostUsedWords = json.data.attributes.most_words_used.map((mostWords) => {
+      return [mostWords.source, mostWords.count];
+    });
+
+    const topReplyUsers = json.data.attributes.top_reply_users.map((topUsers) => {
+      return [topUsers.source, topUsers.count];
+    });
+
+    const daysOfTweets = json.data.attributes.stats_per_day;
+
+
+    document.getElementById('UserScreenName1').innerHTML = 'Overview for ' + json.user.data.attributes.screen_name;
+    document.getElementById('UserScreenName2').innerHTML = json.user.data.attributes.screen_name;
+    document.getElementById('UserName').innerHTML = json.user.data.attributes.name;
+    document.getElementById('UserDescription').innerHTML = json.user.data.attributes.description;
+
+    document.getElementById('UserTwitterId').innerHTML = 'Twitter ID: ' + json.user.data.attributes.twitter_id;
+    document.getElementById('UserLocation').innerHTML = 'Location: ' + json.user.data.attributes.location;
+    document.getElementById('UserTimeZone').innerHTML = 'Time Zone: ' + json.user.data.attributes.time_zone;
+    document.getElementById('UserCreatedAt').innerHTML = 'Account created:<br>' + json.user.data.attributes.created_at;
+
+    document.getElementById('UserTweetsCount').innerHTML =
+      json.user.data.attributes.statuses_count + ' tweets';
+    document.getElementById('UserTweetsAnalyzed').innerHTML =
+      json.data.attributes.tweets_analysed + ' Tweets analysed';
+    document.getElementById('UserFavoritesCount').innerHTML =
+      json.user.data.attributes.favourites_count + ' total likes';
+    document.getElementById('UserFollowersCount').innerHTML =
+      json.user.data.attributes.followers_count + ' followers';
+
+    document.getElementById('UserGotRetweetedCount').innerHTML =
+      json.data.attributes.user_got_retweeted_count + ' total retweets';
+    document.getElementById('UserAverageOwnTweetsVsRetweetCount').innerHTML =
+      json.data.attributes.avg_own_tweets_vs_retweeted_count + ' of your tweets get retweeted';
+    document.getElementById('UserAverageStars').innerHTML =
+      json.data.attributes.average_stars + ' avg stars per tweet';
+    document.getElementById('UserAverageRetweets').innerHTML =
+      json.data.attributes.average_retweets + ' avg retweets';
+    document.getElementById('UserChanceToReachAFollowerOfAFollower').innerHTML =
+      json.data.attributes.chance_to_reach_a_follower_of_a_follower_per_tweet + ' % chance to reach a follower of a follower per tweet';
+
+
+    chartDevices.unload();
+    chartDevices.load({
+      columns: sourceDevice
+    });
+
+    chartOwnTweets.unload();
+    chartOwnTweets.load({
+      columns: [['% of own Tweets vs retweets', ownTweets*100]]
+    });
+
+    chartMostUsedWords.unload();
+    chartMostUsedWords.load({
+      columns: mostUsedWords
+    });
+
+    chartTweetsByDay.unload();
+    chartTweetsByDay.load({
+      columns: daysOfTweets
+    });
+
+    chartTopReplyUsers.unload();
+    chartTopReplyUsers.load({
+      columns: topReplyUsers
+    });
+
   });
-
-  const ownTweets = json.data.attributes.perc_of_own_tweets_vs_retweeted;
-  const mostUsedWords = json.data.attributes.most_words_used.map((mostWords) => {
-    return [mostWords.source, mostWords.count];
-  });
-
-  const topReplyUsers = json.data.attributes.top_reply_users.map((topUsers) => {
-    return [topUsers.source, topUsers.count];
-  });
-
-  const daysOfTweets = json.data.attributes.stats_per_day;
-
-
-  document.getElementById('UserScreenName1').innerHTML = 'Overview for ' + json.user.data.attributes.screen_name;
-  document.getElementById('UserScreenName2').innerHTML = json.user.data.attributes.screen_name;
-  document.getElementById('UserName').innerHTML = json.user.data.attributes.name;
-  document.getElementById('UserDescription').innerHTML = json.user.data.attributes.description;
-
-  document.getElementById('UserTwitterId').innerHTML = 'Twitter ID: ' + json.user.data.attributes.twitter_id;
-  document.getElementById('UserLocation').innerHTML = 'Location: ' + json.user.data.attributes.location;
-  document.getElementById('UserTimeZone').innerHTML = 'Time Zone: ' + json.user.data.attributes.time_zone;
-  document.getElementById('UserCreatedAt').innerHTML = 'Account created:<br>' + json.user.data.attributes.created_at;
-
-  document.getElementById('UserTweetsCount').innerHTML =
-    json.user.data.attributes.statuses_count + ' tweets';
-  document.getElementById('UserTweetsAnalyzed').innerHTML =
-    json.data.attributes.tweets_analysed + ' Tweets analysed';
-  document.getElementById('UserFavoritesCount').innerHTML =
-    json.user.data.attributes.favourites_count + ' total likes';
-  document.getElementById('UserFollowersCount').innerHTML =
-    json.user.data.attributes.followers_count + ' followers';
-
-  document.getElementById('UserGotRetweetedCount').innerHTML =
-    json.data.attributes.user_got_retweeted_count + ' total retweets';
-  document.getElementById('UserAverageOwnTweetsVsRetweetCount').innerHTML =
-    json.data.attributes.avg_own_tweets_vs_retweeted_count + ' of your tweets get retweeted';
-  document.getElementById('UserAverageStars').innerHTML =
-    json.data.attributes.average_stars + ' avg stars per tweet';
-  document.getElementById('UserAverageRetweets').innerHTML =
-    json.data.attributes.average_retweets + ' avg retweets';
-  document.getElementById('UserChanceToReachAFollowerOfAFollower').innerHTML =
-    json.data.attributes.chance_to_reach_a_follower_of_a_follower_per_tweet + ' % chance to reach a follower of a follower per tweet';
-
-
-  chartDevices.unload();
-  chartDevices.load({
-    columns: sourceDevice
-  });
-
-  chartOwnTweets.unload();
-  chartOwnTweets.load({
-    columns: [['% of own Tweets vs retweets', ownTweets*100]]
-  });
-
-  chartMostUsedWords.unload();
-  chartMostUsedWords.load({
-    columns: mostUsedWords
-  });
-
-  chartTweetsByDay.unload();
-  chartTweetsByDay.load({
-    columns: daysOfTweets
-  });
-
-  chartTopReplyUsers.unload();
-  chartTopReplyUsers.load({
-    columns: topReplyUsers
-  });
-
-});
+}
