@@ -7,4 +7,4 @@ from this folder execute
 `webpack index.js js/test.js --watch -d`
 
 start the webserver with
-`python -m SimpleHTTPServer`
+`python3 -m http.server`
